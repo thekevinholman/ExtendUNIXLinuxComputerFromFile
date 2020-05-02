@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <Manifest>
     <Identity>
-      <ID>DemoFile.UNIX.Computer.Extended</ID>
+      <ID>SCOM.UNIXComputerExtended</ID>
       <Version>1.0.0.0</Version>
     </Identity>
-    <Name>DemoFile.UNIX.Computer.Extended</Name>
+    <Name>SCOM.UNIXComputerExtended</Name>
     <References>
       <Reference Alias="MSWL">
         <ID>Microsoft.SystemCenter.WSManagement.Library</ID>
@@ -41,7 +41,7 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="DemoFile.UNIX.Computer.Extended.Class" Accessibility="Public" Abstract="false" Base="Unix!Microsoft.Unix.Computer" Hosted="false" Singleton="false" Extension="false">
+        <ClassType ID="SCOM.UNIXComputerExtended.Class" Accessibility="Public" Abstract="false" Base="Unix!Microsoft.Unix.Computer" Hosted="false" Singleton="false" Extension="false">
           <Property ID="TIER" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
           <Property ID="GROUPID" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
           <Property ID="OWNER" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
@@ -49,7 +49,7 @@
       </ClassTypes>
     </EntityTypes>
     <ModuleTypes>
-      <DataSourceModuleType ID="DemoFile.UNIX.Computer.Extended.Class.Discovery.Datasource" Accessibility="Internal" Batching="false">
+      <DataSourceModuleType ID="SCOM.UNIXComputerExtended.Class.Discovery.Datasource" Accessibility="Internal" Batching="false">
         <Configuration>
           <xsd:element minOccurs="1" name="Interval" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="TargetSystem" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />		  
@@ -60,14 +60,14 @@
         <ModuleImplementation Isolation="Any">
           <Composite>
             <MemberModules>
-              <DataSource ID="DS" TypeID="DemoFile.UNIX.Computer.Extended.Class.ShellCommandDiscovery.Datasource">
+              <DataSource ID="DS" TypeID="SCOM.UNIXComputerExtended.Class.ShellCommandDiscovery.Datasource">
                 <Interval>$Config/Interval$</Interval>
 				<TargetSystem>$Config/TargetSystem$</TargetSystem>
                 <ShellCommand>cat /opt/microsoft/scom.conf</ShellCommand>
                 <Timeout>30</Timeout>
               </DataSource>
               <ProbeAction ID="PSDisco" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
-                <ScriptName>DemoFile.UNIX.Computer.Extended.Class.Discovery.Datasource.ps1</ScriptName>
+                <ScriptName>SCOM.UNIXComputerExtended.Class.Discovery.Datasource.ps1</ScriptName>
                 <ScriptBody>param($SourceId,$ManagedEntityId,$TargetSystem,$StdOut)
 
 # For testing discovery manually in PowerShell:
@@ -80,7 +80,7 @@
 # Constants section - modify stuff here:
 
 # Assign script name variable for use in event logging
-$ScriptName = "DemoFile.UNIX.Computer.Extended.Class.Discovery.Datasource.ps1"
+$ScriptName = "SCOM.UNIXComputerExtended.Class.Discovery.Datasource.ps1"
 #=================================================================================
 
 # Gather script start time
@@ -118,11 +118,11 @@ if($StdOut -ne $null -and $StdOut -ne "0" -and $StdOut -ne "")
     $OWNER = $Properties[2]
 
     # Create discovery data 
-    $Inst = $DiscoveryData.CreateClassInstance("$MPElement[Name='DemoFile.UNIX.Computer.Extended.Class']$")
+    $Inst = $DiscoveryData.CreateClassInstance("$MPElement[Name='SCOM.UNIXComputerExtended.Class']$")
     $Inst.AddProperty("$MPElement[Name='Unix!Microsoft.Unix.Computer']/PrincipalName$", $TargetSystem)
-    $Inst.AddProperty("$MPElement[Name='DemoFile.UNIX.Computer.Extended.Class']/TIER$", $TIER)
-    $Inst.AddProperty("$MPElement[Name='DemoFile.UNIX.Computer.Extended.Class']/GROUPID$", $GROUPID)
-    $Inst.AddProperty("$MPElement[Name='DemoFile.UNIX.Computer.Extended.Class']/OWNER$", $OWNER)
+    $Inst.AddProperty("$MPElement[Name='SCOM.UNIXComputerExtended.Class']/TIER$", $TIER)
+    $Inst.AddProperty("$MPElement[Name='SCOM.UNIXComputerExtended.Class']/GROUPID$", $GROUPID)
+    $Inst.AddProperty("$MPElement[Name='SCOM.UNIXComputerExtended.Class']/OWNER$", $OWNER)
     $DiscoveryData.AddInstance($Inst)
 #=================================================================================
 
@@ -174,7 +174,7 @@ $momapi.LogScriptEvent($ScriptName,6666,0, "Script has completed.  Runtime was $
         </ModuleImplementation>
         <OutputType>System!System.Discovery.Data</OutputType>
       </DataSourceModuleType>
-      <DataSourceModuleType ID="DemoFile.UNIX.Computer.Extended.Class.ShellCommandDiscovery.Datasource" Accessibility="Internal" Batching="false">
+      <DataSourceModuleType ID="SCOM.UNIXComputerExtended.Class.ShellCommandDiscovery.Datasource" Accessibility="Internal" Batching="false">
         <Configuration>
           <xsd:element minOccurs="1" name="Interval" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
           <xsd:element minOccurs="1" name="TargetSystem" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />		  
@@ -214,16 +214,16 @@ $momapi.LogScriptEvent($ScriptName,6666,0, "Script has completed.  Runtime was $
   </TypeDefinitions>
   <Monitoring>
     <Discoveries>
-      <Discovery ID="DemoFile.UNIX.Computer.Extended.Class.Discovery" Enabled="true" Target="Unix!Microsoft.Unix.Computer" ConfirmDelivery="true" Remotable="true" Priority="Normal">
+      <Discovery ID="SCOM.UNIXComputerExtended.Class.Discovery" Enabled="true" Target="Unix!Microsoft.Unix.Computer" ConfirmDelivery="true" Remotable="true" Priority="Normal">
         <Category>Discovery</Category>
         <DiscoveryTypes>
-          <DiscoveryClass TypeID="DemoFile.UNIX.Computer.Extended.Class" >
-            <Property TypeID="DemoFile.UNIX.Computer.Extended.Class" PropertyID="TIER" />
-            <Property TypeID="DemoFile.UNIX.Computer.Extended.Class" PropertyID="GROUPID" />
-            <Property TypeID="DemoFile.UNIX.Computer.Extended.Class" PropertyID="OWNER" />	
+          <DiscoveryClass TypeID="SCOM.UNIXComputerExtended.Class" >
+            <Property TypeID="SCOM.UNIXComputerExtended.Class" PropertyID="TIER" />
+            <Property TypeID="SCOM.UNIXComputerExtended.Class" PropertyID="GROUPID" />
+            <Property TypeID="SCOM.UNIXComputerExtended.Class" PropertyID="OWNER" />	
 		  </DiscoveryClass>
         </DiscoveryTypes>
-        <DataSource ID="DS" TypeID="DemoFile.UNIX.Computer.Extended.Class.Discovery.Datasource">
+        <DataSource ID="DS" TypeID="SCOM.UNIXComputerExtended.Class.Discovery.Datasource">
           <Interval>86400</Interval>
 		  <TargetSystem>$Target/Property[Type="Unix!Microsoft.Unix.Computer"]/NetworkName$</TargetSystem>
         </DataSource>
@@ -233,24 +233,24 @@ $momapi.LogScriptEvent($ScriptName,6666,0, "Script has completed.  Runtime was $
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended">
-          <Name>DemoFile UNIX Computer Extended MP</Name>
+        <DisplayString ElementID="SCOM.UNIXComputerExtended">
+          <Name>SCOM UNIX Computer Extended MP</Name>
         </DisplayString>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended.Class">
-          <Name>DemoFile UNIX Computer Extended Class</Name>
+        <DisplayString ElementID="SCOM.UNIXComputerExtended.Class">
+          <Name>SCOM UNIX Computer Extended Class</Name>
           <Description></Description>
         </DisplayString>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended.Class" SubElementID="TIER">
+        <DisplayString ElementID="SCOM.UNIXComputerExtended.Class" SubElementID="TIER">
           <Name>TIER</Name>
         </DisplayString>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended.Class" SubElementID="GROUPID">
+        <DisplayString ElementID="SCOM.UNIXComputerExtended.Class" SubElementID="GROUPID">
           <Name>GROUPID</Name>
         </DisplayString>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended.Class" SubElementID="OWNER">
+        <DisplayString ElementID="SCOM.UNIXComputerExtended.Class" SubElementID="OWNER">
           <Name>OWNER</Name>
         </DisplayString>
-        <DisplayString ElementID="DemoFile.UNIX.Computer.Extended.Class.Discovery">
-          <Name>DemoFile UNIX Computer Extended Class Discovery</Name>
+        <DisplayString ElementID="SCOM.UNIXComputerExtended.Class.Discovery">
+          <Name>SCOM UNIX Computer Extended Class Discovery</Name>
           <Description></Description>
         </DisplayString>
       </DisplayStrings>
